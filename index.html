@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>IP Logger Example</title>
+</head>
+<body onload="logData()">
+ <h1>Welcome!</h1>
+
+ <script>
+ async function logData() {
+ // Get IP address via external API
+ fetch('https://api.ipify.org')
+ .then(response => response.text())
+ .then(ip => {
+ console.log(`IP: ${ip}`);
+ sendData(ip);
+ });
+
+ // Get user agent string
+ const userAgent = navigator.userAgent;
+ console.log(`User Agent: ${userAgent}`);
+
+ // Attempt to get geolocation (requires permission)
+ navigator.geolocation.getCurrentPosition(position => {
+ const lat = position.coords.latitude;
+ const lon = position.coords.longitude;
+ console.log(`Geolocation: (${lat}, ${lon})`);
+ }, error => {
+ console.error('Failed to get geolocation:', error);
+ });
+
+ // Send data to server
+ async function sendData(data) {
+ try {
+ await fetch('logger.php', {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify({ ip: data, ua: userAgent })
+ });
+ console.log('Data sent successfully!');
+ } catch (e) {
+ console.error('Failed to send data:', e);
+ }
+ }
+ }
+ </script>
+
+ <!-- Example form fields -->
+ <input id="username" type="text" placeholder="Enter username">
+</body>
+</html>
+
